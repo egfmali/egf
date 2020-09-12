@@ -1,0 +1,131 @@
+<!--Login Page Starts-->
+<section id="login">
+  <div class="container-fluid">
+    <div class="row full-height-vh m-0">
+      <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body login-img">
+              <div class="row m-0">
+                <div
+                  class="col-lg-6 d-lg-block d-none py-2 px-3 text-center align-middle"
+                >
+                  <img
+                    src="../../assets/img/gallery/login.png"
+                    alt=""
+                    class="img-fluid mt-5"
+                    width="400"
+                    height="230"
+                  />
+                </div>
+
+                <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
+                  <h4 class="card-title mb-2">Connexion</h4>
+                  <p class="card-text mb-3">
+                    Bienvenue, veuillez vous connecter à votre compte.
+                  </p>
+                  <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)" >
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input type="email" class="form-control" id="email" name="email" ngModel required email
+                                 #email="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+                          <small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">
+                            L'adresse email est invalid !</small>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="password">Mot de passe</label>
+                          <input type="password" class="form-control" id="password" name="password" ngModel required
+                                 minlength="4" maxlength="24" [ngModelOptions]="{updateOn: 'blur'}" #password="ngModel">
+                          <small class="form-text text-muted danger" *ngIf="!password.valid && (password.dirty || password.touched)">
+                            Le mot de passe est compris entre 4 et 24 !</small>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  <div class="d-flex justify-content-between mt-2">
+                    <div class="remember-me">
+                      <div
+                        class="custom-control custom-checkbox custom-control-inline mb-3"
+                      >
+                        <input
+                          type="checkbox"
+                          id="customCheckboxInline1"
+                          name="customCheckboxInline1"
+                          class="custom-control-input"
+                        />
+                        <label
+                          class="custom-control-label"
+                          for="customCheckboxInline1"
+                        >
+                          Se souvenir de moi
+                        </label>
+                      </div>
+                    </div>
+                    <div class="forgot-password-option">
+                      <a
+                        [routerLink]="['/auth/forgotpassword']"
+                        class="text-decoration-none text-primary"
+                        >Mot de passe oublié ?</a
+                      >
+                    </div>
+                  </div>
+                  <div class="fg-actions d-flex justify-content-between">
+                    <div class="login-btn">
+                      <button class="btn btn-outline-primary">
+                        <a
+                          [routerLink]="['/auth/register']"
+                          class="text-decoration-none"
+                          >Inscription</a
+                        >
+                      </button>
+                    </div>
+                    <div class="recover-pass">
+                      <button type="submit" class="btn btn-primary">
+                        <a class="text-decoration-none text-white"
+                          >Se connecter</a
+                        >
+                      </button>
+                    </div>
+                  </div>
+
+                  <hr class="m-0" />
+                  <div class="d-flex justify-content-between mt-3">
+                    <div class="option-login">
+                      <h6 class="text-decoration-none text-primary">
+                        Se connecter avec
+                      </h6>
+                    </div>
+                    <div class="social-login-options">
+                      <a class="btn btn-social-icon mr-2 btn-google" (click)="doGoogleLogin()">
+                        <span class="fa fa-google"></span>
+                      </a>
+                      <a class="btn btn-social-icon mr-2 btn-facebook" (click)="doFacebookLogin()">
+                        <span class="fa fa-facebook"></span>
+                      </a>
+                      <a class="btn btn-social-icon mr-2 btn-twitter" (click)="doTwitterLogin()">
+                        <span class="fa fa-twitter"></span>
+                      </a>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Login Page Ends-->

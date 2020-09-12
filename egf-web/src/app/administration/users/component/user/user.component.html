@@ -1,0 +1,176 @@
+<section id="taskboard">
+
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">Nouveau utilisateur</div>
+            <p class="content-sub-header">Tables with some actions and with more feathers.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <section id="ngx">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="form">
+
+                                <div class="form-body">
+
+                                    <h4 class="form-section"><i class="ft-user"></i> Personal Info</h4>
+
+                                    <div class="form-group">
+                                        <label for="user">Prénom et nom</label>
+                                        <input type="text" id="user" class="form-control"
+                                               placeholder="Prénom et nom"
+                                               [(ngModel)]="user.name" name="user" required
+                                               #users="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+
+                                        <div [hidden]="users.valid || users.pristine"
+                                             class="alert alert-danger">
+                                            prénom et/ou nom invalid !
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phone">Téléphone</label>
+                                                <input type="phone" id="phone" class="form-control"
+                                                       placeholder="Téléphone"
+                                                       [(ngModel)]="user.phone" name="phone" required
+                                                       #phone="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+
+                                                <div [hidden]="phone.valid || phone.pristine"
+                                                     class="alert alert-danger">
+                                                    téléphone invalid !
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" id="email" class="form-control"
+                                                       placeholder="email"
+                                                       [(ngModel)]="user.email" name="email" required
+                                                       #email="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+
+                                                <div [hidden]="email.valid || email.pristine"
+                                                     class="alert alert-danger">
+                                                    email invalid !
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+
+                                            <div class="form-group">
+                                                <label for="password">Mot de passe</label>
+                                                <input type="password" id="password" class="form-control"
+                                                       placeholder="mot de passe"
+                                                       [(ngModel)]="user.password" name="password" required
+                                                       #password="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+
+                                                <div [hidden]="password.valid || password.pristine"
+                                                     class="alert alert-danger">
+                                                    mot de passe invalid !
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="passwordConfirme">Confirmer mot de passe</label>
+                                                <input type="password" id="passwordConfirme" class="form-control"
+                                                       placeholder="mot de passe"
+                                                       [(ngModel)]="user.password" name="passwordConfirme" required
+                                                       #passwordConfirme="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+
+                                                <div [hidden]="passwordConfirme.valid || passwordConfirme.pristine"
+                                                     class="alert alert-danger">
+                                                    mot de passe invalid !
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row last">
+                                        <label class="col-md-3 label-control">Type d'utilisateur</label>
+                                        <div class="col-md-9">
+                                            <div class="input-group col-md-9">
+
+                                                <div class="custom-control custom-radio d-inline-block ml-1">
+                                                    <input type="radio" id="customRadioInline1" checked name="customRadioInline2" class="custom-control-input">
+                                                    <label class="custom-control-label" for="customRadioInline1">Utilisateur</label>
+                                                </div>
+
+                                                <div class="custom-control custom-radio d-inline-block">
+                                                    <input type="radio" id="customRadioInline2" name="customRadioInline2" class="custom-control-input">
+                                                    <label class="custom-control-label" for="customRadioInline2">Transporteur</label>
+                                                </div>
+
+                                                <div class="custom-control custom-radio d-inline-block ml-1">
+                                                    <input type="radio" id="customRadioInline3" name="customRadioInline2" class="custom-control-input">
+                                                    <label class="custom-control-label" for="customRadioInline3">Expéditeur</label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="modelRadioForm">
+                                        <label ngbButtonLabel class="btn-raised btn-primary">
+                                            <input ngbButton type="radio" value="Left"> Left (pre-checked)
+                                        </label>
+                                        <label ngbButtonLabel class="btn-raised btn-primary">
+                                            <input ngbButton type="radio" value="Middle"> Middle
+                                        </label>
+                                        <label ngbButtonLabel class="btn-raised btn-primary">
+                                            <input ngbButton type="radio" value="Role"> Role
+                                        </label>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="profil">Profil</label>
+                                        <ng-select id="profil"
+                                                   [items]="profils$ | async"
+                                                   [virtualScroll]="true"
+                                                   bindLabel="name"
+                                                   bindValue="uid"
+                                                   placeholder="Selectionner le profil" appendTo="body"
+                                                   [(ngModel)]="user.profil_uid" name="profil" required
+                                                   #profil="ngModel">
+                                        </ng-select>
+
+                                        <div [hidden]="profil.valid || profil.pristine" class="alert alert-danger">
+                                            profil invalid !
+                                        </div>
+                                    </div>
+
+                                    <div class="fg-actions d-flex justify-content-between">
+                                        <div class="login-btn"></div>
+                                        <div class="recover-pass" [hidden]="isLoading">
+                                            <button class="btn btn-primary" type="submit">
+                                                <a class="text-decoration-none text-white">
+                                                    Enregistrer
+                                                </a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+</section>

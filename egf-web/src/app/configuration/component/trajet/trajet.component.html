@@ -1,0 +1,315 @@
+<!-- Filter Datatable Options Starts -->
+ <ng-template #contentMaps let-c="close" let-d="dismiss">
+     <div class="px-4">
+        <div class="form-body">
+            <h4 class="form-section"><i class="fa fa-road"></i> Détail {{trajetSelected?.libelle}}</h4>
+
+<!--            <agm-map-->
+<!--                    [latitude]="latitude"-->
+<!--                    [longitude]="longitude"-->
+<!--                    [scrollwheel]="true"-->
+<!--                    [zoom]="zoom">-->
+<!--                <agm-marker-->
+<!--                        [latitude]="latitude"-->
+<!--                        [longitude]="longitude"-->
+<!--                        [markerDraggable]="true"-->
+<!--                        (dragEnd)="markerDragEnd($event)"></agm-marker>-->
+<!--            </agm-map>-->
+
+            </div>
+        <div class="form-actions">
+            <button type="button" class="btn btn-raised btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                <i class="ft-x"></i> Fermer
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+
+ <ng-template #content let-c="close" let-d="dismiss">
+     <div class="px-4">
+                    <form class="form" #f="ngForm" (ngSubmit)="onSubmit()" >
+                        <div class="form-body">
+                            <h4 class="form-section"><i class="fa fa-road"></i> {{trajetSelected.uid ? trajetSelected.libelle : 'Nouveau trajet'}}</h4>
+
+                            <div class="row">
+                                <div class="col-9">
+                                    <div class="form-group">
+                                        <label for="libelle">Libelle</label>
+                                        <input type="text" id="libelle" class="form-control"
+                                               placeholder="Libelle"
+                                               [(ngModel)]="trajetSelected.libelle" name="libelle" required
+                                               #libelle="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+                                        <div [hidden]="libelle.valid || libelle.pristine"
+                                             class="alert alert-danger">
+                                            libelle invalid !
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="code">Code</label>
+                                        <input type="text" id="code" class="form-control"
+                                               placeholder="Code"
+                                               [(ngModel)]="trajetSelected.code" name="code" required
+                                               #code="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+                                        <div [hidden]="code.valid || code.pristine"
+                                             class="alert alert-danger">
+                                            code invalid !
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="pointDepart">Point de depart</label>
+                                        <ng-select id="pointDepart"
+                                                   [items]="villeEscales$ | async"
+                                                   [virtualScroll]="true"
+                                                   bindLabel="ville" bindValue="ville" placeholder="Selectionner le point de depart" appendTo="body"
+                                                   [(ngModel)]="trajetSelected.pointDepart" name="pointDepart" required
+                                                   #pointDepart="ngModel">
+                                        </ng-select>
+                                        <div [hidden]="pointDepart.valid || pointDepart.pristine" class="alert alert-danger">
+                                            point de depart invalid !
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="pointArrivee">Point d'arrivée</label>
+                                        <ng-select
+                                               id="pointArrivee"
+                                               [items]="villeEscales$ | async"
+                                               [virtualScroll]="true"
+                                               bindLabel="ville"
+                                               bindValue="ville"
+                                               placeholder="Selectionner le point d'arrivée"
+                                               appendTo="body"
+                                               [(ngModel)]="trajetSelected.pointArrivee"
+                                               name="pointArrivee" required
+                                               #pointArrivee="ngModel">
+                                        </ng-select>
+                                        <div [hidden]="pointArrivee.valid || pointArrivee.pristine" class="alert alert-danger">
+                                            point d'arrivée invalid !
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="distance">Distance(Km)</label>
+                                        <input type="number" id="distance" class="form-control"
+                                           placeholder="Distance"
+                                           [(ngModel)]="trajetSelected.distance" name="distance"
+                                           #distance="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+                                        <div [hidden]="distance.valid || distance.pristine"
+                                             class="alert alert-danger">
+                                            distance invalid !
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <input type="text" id="description" class="form-control"
+                                           placeholder="Description"
+                                           [(ngModel)]="trajetSelected.description" name="description"
+                                           #description="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                                <div class="form-group">
+                                    <label for="villeEscale">Villes d'escale</label>
+                                    <ng-select id="villeEscale"
+                                           [items]="villeEscales$ | async"
+                                           [virtualScroll]="true"
+                                           [multiple]="true"
+                                           bindLabel="ville"
+                                           bindValue="ville"
+                                           placeholder="Selectionner une ville d'escale"
+                                           appendTo="body"
+                                           [(ngModel)]="trajetSelected.villeEscales"
+                                           name="villeEscales" required
+
+                                           (select)="onSelected($event)"
+                                           #villeEscale="ngModel">
+                                    </ng-select>
+                                    <div [hidden]="villeEscale.valid || villeEscale.pristine" class="alert alert-danger">
+                                        villes d'escales invalid !
+                                    </div>
+                                </div>
+
+
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-raised btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                                <i class="ft-x"></i> Annuler
+                            </button>
+                            <button type="submit" class="btn btn-raised btn-raised btn-primary" [disabled]="!f.valid">
+                                <i class="fa fa-check-square-o"></i>  {{trajetSelected.uid ? 'Modifier':'Ajouter'}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+</ng-template>
+
+
+<section id="filter" class="mb-3">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header"><i class="fa fa-road"></i> Trajets</div>
+            <p class="content-sub-header">Tables with some actions and with more feathers.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <section class="taskboard-app-form bg-blue-grey bg-lighten-5">
+                <div class="card">
+                    <div class="card-body pt-3 text-left">
+                        <form class="taskboard-app-input row">
+                            <fieldset class="position-relative has-icon-left col-md-4 col-12 mb-1">
+                                <button type="button" class="btn btn-raised btn-primary px-4 mb-0" style="width: 100%" (click)="openAdd(content)">
+                                    <i class="ft ft-plus-circle d-lg-none d-xl-inline-block"></i>
+                                    <span class="d-lg-inline-block d-none ml-1">Nouveau</span>
+                                </button>
+                            </fieldset>
+                            <fieldset class="position-relative has-icon-left col-md-6 col-12 mb-1">
+                                <div class="form-control-position">
+                                    <i class="icon-emoticon-smile"></i>
+                                </div>
+                                <input type="text" class="form-control" id="todoMessage" placeholder='Chercher' (keyup)='updateFilter($event)'>
+                            </fieldset>
+
+                            <fieldset class="position-relative has-icon-left col-md-2 col-12 mb-1 add-task-btn">
+                                <button type="button" class="btn btn-raised btn-primary px-4 mb-0">
+                                    <i class="ft ft-search d-lg-none d-xl-inline-block"></i>
+                                    <span class="d-lg-inline-block d-none ml-1">Chercher</span>
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <ngx-datatable
+                    [rows]="trajets$ | async"
+                    [loadingIndicator]="true"
+                    [swapColumns]="true"
+                    class='bootstrap'
+                    [columns]="columns"
+                    [columnMode]="columnMode"
+                    [headerHeight]="40"
+                    [footerHeight]="40"
+                    [rowHeight]="'auto'"
+                    [reorderable]="true"
+                    [limit]="10"
+                    (select)="onSelect($event)"
+            >
+
+                <ngx-datatable-column name="createdDate">
+                    <ng-template let-column="column" ngx-datatable-header-template> Date </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ toDate(value) | date:'dd/MM/yyyy HH:mm'  }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="createdByDisplayName">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()">Acteur</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value ? value:'admin'  }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="libelle">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()"> Libelle</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+<!--                <ngx-datatable-column name="code">-->
+<!--                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>-->
+<!--                        <span (click)="sort()"> Code</span>-->
+<!--                    </ng-template>-->
+<!--                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>-->
+<!--                        <strong>{{ value }}</strong>-->
+<!--                    </ng-template>-->
+<!--                </ngx-datatable-column>-->
+
+                <ngx-datatable-column name="pointDepart">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()"> Point de depart</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="pointArrivee">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()"> Point d'arrivée</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="distance">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()"> Distance</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value }} Km</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="uid">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()"> Ville d'escales</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong> {{ row.villeEscales.length }} </strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+                <ngx-datatable-column name="uid">
+                    <ng-template let-column="column" ngx-datatable-header-template>Actions</ng-template>
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                        <strong>
+<!--                            (click)="openShow(contentMaps,row)"-->
+                            <a class="primary p-0" data-original-title="" title="" >
+                                <i class="fa fa-road font-medium-3 mr-2"></i>
+                            </a>
+                            <a class="success p-0" data-original-title="" title="" (click)="openEdite(content,row)">
+                                <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                            </a>
+                            <a class="danger p-0" data-original-title="" title="" (click)="confirmCancelButton(value)">
+                                <i class="ft-x font-medium-3 mr-2"></i>
+                            </a>
+                        </strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
+
+        </div>
+    </div>
+</section>

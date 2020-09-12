@@ -1,0 +1,6 @@
+<h1 matDialogTitle>Confirmation</h1>
+<div mat-dialog-content>{{confirmMessage}}</div>
+<div mat-dialog-actions class="pt-24">
+    <button mat-button class="button-style" (click)="dialogRef.close(false)">{{ clear }}</button>
+    <button mat-raised-button style="background-color: #0B60A9; color: white" class="mat-accent mr-16" (click)="dialogRef.close(true)">{{ valid }}</button>
+</div>

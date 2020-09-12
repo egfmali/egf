@@ -1,0 +1,151 @@
+<!-- Filter Datatable Options Starts -->
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+        <div class="card">
+
+            <div class="card-content">
+                <div class="px-3">
+                    <form class="form" #f="ngForm" (ngSubmit)="onSubmit()" >
+                        <div class="form-body">
+                            <h4 class="form-section"><i class="ft-life-buoy"></i> {{expediteurSelected.uid ? expediteurSelected.code : 'Nouveau transporteur'}}</h4>
+
+
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-raised btn-raised btn-warning mr-1" (click)="d('Cross click')">
+                                <i class="ft-x"></i> Annuler
+                            </button>
+                            <button type="submit" class="btn btn-raised btn-raised btn-primary">
+                                <i class="fa fa-check-square-o"></i>  {{expediteurSelected.uid ? 'Modifier':'Ajouter'}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<section id="filter" class="mb-3">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">Expéditeurs</div>
+            <p class="content-sub-header">Tables with some actions and with more feathers.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <section class="taskboard-app-form bg-blue-grey bg-lighten-5">
+                <div class="card">
+                    <div class="card-body pt-3 text-left">
+                        <form class="taskboard-app-input row">
+                            <fieldset class="position-relative has-icon-left col-md-4 col-12 mb-1">
+                                <button type="button" class="btn btn-raised btn-primary px-4 mb-0" style="width: 100%" (click)="openAdd(content)">
+                                    <i class="ft ft-plus-circle d-lg-none d-xl-inline-block"></i>
+                                    <span class="d-lg-inline-block d-none ml-1">Nouveau</span>
+                                </button>
+                            </fieldset>
+                            <fieldset class="position-relative has-icon-left col-md-6 col-12 mb-1">
+                                <div class="form-control-position">
+                                    <i class="icon-emoticon-smile"></i>
+                                </div>
+                                <input type="text" class="form-control" id="todoMessage" placeholder='Chercher' (keyup)='updateFilter($event)'>
+                            </fieldset>
+
+                            <fieldset class="position-relative has-icon-left col-md-2 col-12 mb-1 add-task-btn">
+                                <button type="button" class="btn btn-raised btn-primary px-4 mb-0">
+                                    <i class="ft ft-search d-lg-none d-xl-inline-block"></i>
+                                    <span class="d-lg-inline-block d-none ml-1">Chercher</span>
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <ngx-datatable
+                    [rows]="expediteurs$ | async"
+                    [loadingIndicator]="true"
+                    [swapColumns]="true"
+                    class='bootstrap'
+                    [columns]="columns"
+                    [columnMode]="columnMode"
+                    [headerHeight]="40"
+                    [footerHeight]="40"
+                    [rowHeight]="'auto'"
+                    [reorderable]="true"
+                    [limit]="10"
+                    [selectionType]="selectionType"
+                    (select)="onSelect($event)"
+            >
+
+                <ngx-datatable-column name="createdDate">
+                    <ng-template let-column="column" ngx-datatable-header-template> Date </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ toDate(value) | date:'dd/MM/yyyy HH:mm'  }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="status">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()">Status</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ row.user.status  }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Name">
+                    <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                        <span (click)="sort()"> Prénom et nom</span>
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ row.user.name }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="code">
+                    <ng-template let-column="column" ngx-datatable-header-template>Coe</ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="phone">
+                    <ng-template let-column="column" ngx-datatable-header-template>Téléphone</ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        <strong>{{ value }}</strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="uid">
+                    <ng-template let-column="column" ngx-datatable-header-template>Actions</ng-template>
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                        <strong>
+                            <a class="info p-0" data-original-title="" title="">
+                                <i class="ft-user font-medium-3 mr-2"></i>
+                            </a>
+                            <a class="info p-0" data-original-title="" title="">
+                                <i class="ft-lock font-medium-3 mr-2"></i>
+                            </a>
+                            <a class="success p-0" data-original-title="" title="" (click)="openEdite(content,row)">
+                                <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                            </a>
+                            <a class="danger p-0" data-original-title="" title="" (click)="confirmCancelButton(value)">
+                                <i class="ft-x font-medium-3 mr-2"></i>
+                            </a>
+                        </strong>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,15 @@
+
+.map-content {
+  width: 100%;
+
+  .fuse-card {
+    max-width: 800px;
+    min-width: 800px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+  }
+}

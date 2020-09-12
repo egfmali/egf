@@ -1,0 +1,43 @@
+
+
+
+<section id="filter" class="mb-3">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">TypeDevis roles</div>
+            <p class="content-sub-header">Les roles du profil {{profil?.name}}.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <section class="taskboard-app-form bg-blue-grey bg-lighten-5">
+
+                <div class="card">
+                    <div class="card-body pt-3 text-right">
+                            <button type="button" class="btn btn-social btn-min-width mr-2 mb-2 btn-microsoft px-4 mb-0"  (click)="confirmCancelButton()">
+                                <i class="ft ft-plus-circle d-lg-none d-xl-inline-block"></i>
+                                <span class="d-lg-inline-block d-none ml-1">Appliquer</span>
+                            </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body pt-40 pb-40">
+                         <p-pickList [source]="rolesSource" [target]="rolesTarget" sourceHeader="Les roles de EGF" [targetHeader]="'Les roles du profil ' + profil?.name.toLocaleLowerCase()" [responsive]="true" filterBy="name"
+                                dragdrop="true" sourceFilterPlaceholder="Chercher" targetFilterPlaceholder="Chercher" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+                        <ng-template let-role pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <div>
+                                    <div style="font-size:14px;font-weight: bold;" [title]="role.name">{{role.description}}</div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>

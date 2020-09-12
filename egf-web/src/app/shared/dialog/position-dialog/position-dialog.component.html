@@ -1,0 +1,37 @@
+<div class="map-content">
+
+  <div class="fuse-card auto-width p-16 mt-24">
+
+    <agm-map class="h-420 w-100-p"
+             (mapClick)="mapClick($event)"
+             [minZoom]="2"
+             [zoom]="15"
+             [latitude]="latitude"
+             [longitude]="longitude"
+             [fullscreenControl]="false"
+             [rotateControl]="false"
+             [zoomControl]="true"
+             [scaleControl]="false"
+             [streetViewControl]="false"
+             [scrollwheel]="false">
+
+      <agm-marker
+        [latitude]="latitude"
+        [longitude]="longitude">
+        <agm-info-window>
+          <strong>Selectionner votre position</strong>
+        </agm-info-window>
+      </agm-marker>
+    </agm-map>
+
+  </div>
+  <div class="buttons">
+    <button class="button-style" mat-button (click)="dialogRef.close({longitude: longitude, latitude: latitude})">
+      Valider
+    </button>&nbsp;
+    <button style="background-color: #454545; color: white" mat-button (click)="dialogRef.close(false)">
+      Fermer
+    </button>
+  </div>
+
+</div>
